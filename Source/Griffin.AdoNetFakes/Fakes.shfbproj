@@ -16,13 +16,13 @@
     <Name>Documentation</Name>
     <!-- SHFB properties -->
     <OutputPath>.\Help\</OutputPath>
-    <HtmlHelpName>griffin.mvccontrib</HtmlHelpName>
+    <HtmlHelpName>griffin.adonetfakes</HtmlHelpName>
     <Language>en-US</Language>
-    <HelpTitle>Griffin.MvcContrib - Extras for ASP.NET MVC3</HelpTitle>
+    <HelpTitle>Griffin.AdoNetFakes - Unit testing fakes.</HelpTitle>
     <CopyrightHref>http://griffinframework.net</CopyrightHref>
     <CopyrightText>%28c%29 Jonas Gauffin. All rights Reserved</CopyrightText>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\..\..\..\git\griffin.mvccontrib\source\Griffin.MvcContrib\Griffin.MvcContrib.csproj" />
+      <DocumentationSource sourceFile="Griffin.AdoNetFakes\Griffin.AdoNetFakes.csproj" />
     </DocumentationSources>
     <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
     <BuildLogFile />
