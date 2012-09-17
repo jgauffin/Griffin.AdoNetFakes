@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FakeColumn.cs" />
+    <Compile Include="FakeDataRecord.cs" />
     <Compile Include="NamespaceDoc.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="FakeCommand.cs" />

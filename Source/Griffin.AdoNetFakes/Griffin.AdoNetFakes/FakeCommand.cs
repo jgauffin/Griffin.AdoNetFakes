@@ -6,8 +6,14 @@ namespace Griffin.AdoNetFakes
     /// <summary>
     /// Fakes a db command
     /// </summary>
+    /// <remarks><para>Uses <c>Factory.Instance.CreateReader</c> to create readers.</para></remarks>
     public class FakeCommand : IDbCommand
     {
+        /// <summary>
+        /// Used to detect if <see cref="NextScalarResult"/> have been specified.
+        /// </summary>
+        public static readonly object NotSpecified = new object();
+
         private readonly List<string> _commandStrings = new List<string>();
         private readonly ParameterCollection _parameters;
         private FakeDbConnection _connection;
@@ -19,8 +25,19 @@ namespace Griffin.AdoNetFakes
         /// <param name="fakeDbConnection">The fake db connection.</param>
         public FakeCommand(FakeDbConnection fakeDbConnection)
         {
-            _parameters = Factory.Instance.CreateParameterCollection(this);
             _connection = fakeDbConnection;
+            _parameters = Factory.Instance.CreateParameterCollection(this);
+            NextScalarResult = NotSpecified;
+            NextNonQueryResult = -1;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeCommand" /> class.
+        /// </summary>
+        /// <remarks>Creates a new FakeDbConnection</remarks>
+        public FakeCommand()
+            : this(new FakeDbConnection(null))
+        {
         }
 
         /// <summary>
@@ -71,6 +88,21 @@ namespace Griffin.AdoNetFakes
         /// </summary>
         public bool Disposed { get; private set; }
 
+        /// <summary>
+        /// Gets or sets reader to return for the next ExecuteReader
+        /// </summary>
+        public FakeDataReader NextReader { get; set; }
+
+        /// <summary>
+        /// Gets or sets result of the next NonQuery.
+        /// </summary>
+        public int NextNonQueryResult { get; set; }
+
+        /// <summary>
+        /// Gets or sets the next scalar result
+        /// </summary>
+        public object NextScalarResult { get; set; }
+
         #region IDbCommand Members
 
         /// <summary>
@@ -78,6 +110,7 @@ namespace Griffin.AdoNetFakes
         /// </summary>
         /// <returns>The text command to execute. The default value is an empty string ("").</returns>
         public virtual string CommandText { get; set; }
+
         /// <summary>
         /// Gets or sets the wait time before terminating the attempt to execute a command and generating an error.
         /// </summary>
@@ -85,6 +118,7 @@ namespace Griffin.AdoNetFakes
         ///   
         /// <exception cref="T:System.ArgumentException">The property value assigned is less than 0. </exception>
         public virtual int CommandTimeout { get; set; }
+
         /// <summary>
         /// Indicates or specifies how the <see cref="P:System.Data.IDbCommand.CommandText"/> property is interpreted.
         /// </summary>
@@ -98,7 +132,7 @@ namespace Griffin.AdoNetFakes
         public virtual IDbConnection Connection
         {
             get { return _connection; }
-            set { _connection = (FakeDbConnection)value; }
+            set { _connection = (FakeDbConnection) value; }
         }
 
         /// <summary>
@@ -115,6 +149,7 @@ namespace Griffin.AdoNetFakes
         /// </summary>
         /// <returns>the Command object of a .NET Framework data provider executes. The default value is null.</returns>
         public virtual IDbTransaction Transaction { get; set; }
+
         /// <summary>
         /// Gets or sets how command results are applied to the <see cref="T:System.Data.DataRow"/> when used by the <see cref="M:System.Data.IDataAdapter.Update(System.Data.DataSet)"/> method of a <see cref="T:System.Data.Common.DbDataAdapter"/>.
         /// </summary>
@@ -160,7 +195,7 @@ namespace Griffin.AdoNetFakes
             ExecutedParameterCollections.Add(new ParameterCollection(_parameters));
             CommandStrings.Add(CommandText);
             ExecuteNonQueryInvoked = true;
-            return Factory.Instance.CreateNonQueryResult(this);
+            return NextNonQueryResult == -1 ? Factory.Instance.CreateNonQueryResult(this) : NextNonQueryResult;
         }
 
         /// <summary>
@@ -189,13 +224,13 @@ namespace Griffin.AdoNetFakes
         /// </returns>
         /// <remarks>
         /// Stores the command text in <see cref="CommandStrings"/>, the parameters in <see cref="ExecutedParameterCollections"/> and finnally sets
-        /// <see cref="ExecuteNonQueryInvoked"/> before returning <see cref="Factory.CreateNonQueryResult"/>.
+        /// <see cref="ExecuteNonQueryInvoked"/> before returning <see cref="NextReader"/> or <see cref="Factory.CreateNonQueryResult"/>.
         /// </remarks>
         public virtual IDataReader ExecuteReader(CommandBehavior behavior)
         {
             CommandStrings.Add(CommandText);
             ExecutedParameterCollections.Add(new ParameterCollection(_parameters));
-            return Factory.Instance.CreateReader(this);
+            return NextReader ?? Factory.Instance.CreateReader(this);
         }
 
         /// <summary>
@@ -211,7 +246,9 @@ namespace Griffin.AdoNetFakes
             CommandStrings.Add(CommandText);
             ExecutedParameterCollections.Add(new ParameterCollection(_parameters));
             ExecuteScalarInvoked = true;
-            return Factory.Instance.CreateScalarResult(this, _parameters);
+            return NextScalarResult == NotSpecified
+                       ? Factory.Instance.CreateScalarResult(this, _parameters)
+                       : NextScalarResult;
         }
 
         /// <summary>

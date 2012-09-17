@@ -13,7 +13,7 @@ namespace Griffin.AdoNetFakes
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeDbConnection"/> class.
         /// </summary>
-        /// <param name="nextResult">The next result which will be returned by next generated command.</param>
+        /// <param name="nextResult">The result which will be returned by next generated command.</param>
         public FakeDbConnection(DataTable nextResult)
         {
             NextResult = nextResult;
@@ -56,7 +56,7 @@ namespace Griffin.AdoNetFakes
         public ConnectionState CurrentState { get; set; }
 
         /// <summary>
-        /// Gets all created commands
+        /// Gets all commands that was created for this connection
         /// </summary>
         public List<FakeCommand> Commands
         {

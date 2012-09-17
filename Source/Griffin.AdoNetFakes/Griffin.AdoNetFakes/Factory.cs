@@ -4,9 +4,10 @@ using System.Data;
 namespace Griffin.AdoNetFakes
 {
     /// <summary>
-    /// Builds all fakes used by this framework
+    /// Builds all fakes used by this framework (called from within the classes).
     /// </summary>
-    /// <remarks>Inherit it and override the methods if you need
+    /// <remarks>
+    /// Inherit it and override the methods if you need
     /// to control the objects which are returned.</remarks>
     public class Factory 
     {
