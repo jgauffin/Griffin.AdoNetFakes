@@ -50,9 +50,16 @@ We can also validate everything which is executed. Here is an example on how we 
     var command = new FakeCommand();
 	command.Setup(new NonQueryResult("UPDATE User SET Status = @status", args));
 	
-What we did was to say that we expected the command to be executed with the specified SQL statement and one supplied parameter.
+What we did was to say that we expected the command to be executed with the specified SQL statement and one supplied parameter. Execution example:
 
-If the command would fail (such as being invoked with invalid arguments or incorrect command text we get a detailed exception)
+    using (var command = connection.CreateCommand())
+	{
+		command.CommandText = "UPDATE User SET Status = @status";
+		command.AddParameter("status", 2);
+		command.ExecuteNonQuery(); //<-- will fail since status was set to two.
+	}
+
+If the command would fail (such as being invoked with invalid arguments or incorrect command text) we get a detailed exception.
 
 Example code:
 
@@ -60,7 +67,7 @@ Example code:
 	command.AddParameter("status", 1);
 	command.AddParameter("id", 22);
 	
-Result:
+Exception message:
 
 	Parameter validation failed.
 	Parameter 'status': Correct.
