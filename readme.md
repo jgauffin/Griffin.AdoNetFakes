@@ -116,7 +116,16 @@ The method can be invoked several times:
 	});
     connection.Setup(new FakeCommand(table));
 	
+You can also specify the column names:
 
+	var dataTable = new FakeTable(new[] {"conversation_handle", "message"}, new[]
+		{
+			new object[] {Guid.NewGuid(), "Hello world"}
+		});
+	var connection = new FakeConnection();
+	connection.Setup(new FakeCommand(dataTable));
+
+If you need more customizations than that simply use a regular `DataTable`.
 
 ## Docs
 
