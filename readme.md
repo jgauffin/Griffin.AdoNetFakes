@@ -1,6 +1,4 @@
-ADO.NET Fakes
-
-This library is a complete ADO.NET driver which are designed to aid you in testing components which requires ADO.NET. 
+This library is a complete ADO.NET driver which is designed to aid you in unit testing.
 
 It do however require that the library/code you are testing have been coded against the abstractions (either `IDbCommand` etc the base classes `DbCommand` etc). For more information about that approach read [this blog post](http://blog.gauffin.org/2013/01/ado-net-the-right-way/).
 
