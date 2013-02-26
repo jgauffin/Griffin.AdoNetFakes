@@ -9,6 +9,24 @@ namespace Griffin.AdoNetFakes
     public class FakeParameter : DbParameter
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="FakeParameter"/> class.
+        /// </summary>
+        public FakeParameter()
+        {
+            
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeParameter"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public FakeParameter(string name, object value)
+        {
+            ParameterName = name;
+            Value = value;
+        }
+        /// <summary>
         /// Gets or sets the <see cref="T:System.Data.DbType"/> of the parameter.
         /// </summary>
         /// <returns>One of the <see cref="T:System.Data.DbType"/> values. The default is <see cref="F:System.Data.DbType.String"/>.</returns>
@@ -62,6 +80,10 @@ namespace Griffin.AdoNetFakes
         /// <returns>An <see cref="T:System.Object"/> that is the value of the parameter. The default value is null.</returns>
         public override object Value { get; set; }
 
+        /// <summary>
+        /// Indicates the precision of numeric parameters.
+        /// </summary>
+        /// <returns>The maximum number of digits used to represent the Value property of a data provider Parameter object. The default value is 0, which indicates that a data provider sets the precision for Value.</returns>
         public byte Precision { get; set; }
 
         /// <summary>

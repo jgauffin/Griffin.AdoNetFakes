@@ -32,7 +32,7 @@ namespace Griffin.AdoNetFakes
         /// </summary>
         /// <param name="connection">The connection that want to return a new command.</param>
         /// <returns>Created command</returns>
-        public virtual FakeCommand CreateCommand(FakeDbConnection connection)
+        public virtual FakeCommand CreateCommand(FakeConnection connection)
         {
             return new FakeCommand(connection);
         }
@@ -50,29 +50,30 @@ namespace Griffin.AdoNetFakes
         /// <summary>
         /// Create a new reader
         /// </summary>
-        /// <param name="fakeCommand">Command which must return a new reader since <see cref="IDbCommand.ExecuteReader"/> has been invoked..</param>
+        /// <param name="fakeCommand">Command which must return a new reader (by <see cref="IDbCommand.ExecuteReader()"/>)</param>
         /// <returns>A new reader</returns>
-        /// <remarks>Default implementation will invoke <see cref="CreateResult"/> to get a new result.
+        /// <remarks>Default implementation will first try to invoke <see cref="ReaderFactory"/> and then invoke <see cref="TableFactory"/> to get a new result.
         /// </remarks>
         public virtual FakeDataReader CreateReader(FakeCommand fakeCommand)
         {
-            return new FakeDataReader(CreateResult(fakeCommand));
+            if (ReaderFactory != null)
+                return ReaderFactory(fakeCommand);
+
+            if (TableFactory == null)
+                throw new InvalidOperationException("Either configure the command using command.Setup() or configure the Factory.TableFactory or Factory.ReaderFactory.");
+
+            return new FakeDataReader(TableFactory(fakeCommand));
         }
 
         /// <summary>
-        /// Create a new result
+        /// Create a new table which can be used in the returned <see cref="FakeDataReader"/>.
         /// </summary>
-        /// <param name="command">The command.</param>
-        /// <returns>New result table</returns>
-        /// <remarks>Will try to use the <see cref="FakeDbConnection.NextResult"/> property as the result</remarks>
-        public virtual DataTable CreateResult(FakeCommand command)
-        {
-            var con = command.Connection as FakeDbConnection;
-            if (con == null)
-                throw new InvalidOperationException("The default implementation expects a FakeDbConnection to be able to get the next result");
+        public Func<FakeCommand, DataTable> TableFactory { get; set; }
 
-            return con.NextResult;
-        }
+        /// <summary>
+        /// Create a new reader which can be returned by <see cref="CreateReader"/>.
+        /// </summary>
+        public Func<FakeCommand, FakeDataReader> ReaderFactory { get; set; }
 
         /// <summary>
         /// Create a new parameter.
@@ -89,7 +90,7 @@ namespace Griffin.AdoNetFakes
         /// </summary>
         /// <param name="connection">Connection which wants to create a transaction</param>
         /// <returns>The transaction</returns>
-        public virtual FakeTransaction CreateTransaction(FakeDbConnection connection)
+        public virtual FakeTransaction CreateTransaction(FakeConnection connection)
         {
             return new FakeTransaction(connection);
         }
@@ -100,7 +101,7 @@ namespace Griffin.AdoNetFakes
         /// <param name="connection">The connection which wants to create a transaction.</param>
         /// <param name="il">Isolation level.</param>
         /// <returns>The transaction</returns>
-        public virtual FakeTransaction CreateTransaction(FakeDbConnection connection, IsolationLevel il)
+        public virtual FakeTransaction CreateTransaction(FakeConnection connection, IsolationLevel il)
         {
             return new FakeTransaction(connection, il);
         }

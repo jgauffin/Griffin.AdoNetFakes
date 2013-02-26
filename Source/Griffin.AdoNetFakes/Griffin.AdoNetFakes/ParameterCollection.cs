@@ -7,13 +7,13 @@ namespace Griffin.AdoNetFakes
     /// <summary>
     /// Simple collection
     /// </summary>
-    public class ParameterCollection : List<IDataParameter>, IDataParameterCollection
+    public class ParameterCollection : List<FakeParameter>, IDataParameterCollection
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterCollection"/> class.
         /// </summary>
-        /// <param name="command">The command.</param>
-        public ParameterCollection(IDbCommand command)
+        /// <param name="command">The commandResult.</param>
+        public ParameterCollection(FakeCommand command)
         {
             Command = command;
         }
@@ -29,9 +29,23 @@ namespace Griffin.AdoNetFakes
         }
 
         /// <summary>
-        /// Gets command that the parameters is for (if specified in the constructor)
+        /// Initializes a new instance of the <see cref="ParameterCollection"/> class.
         /// </summary>
-        public IDbCommand Command { get; set; }
+        /// <param name="parameters">Add a range of paramets to this collection</param>
+        public ParameterCollection(params FakeParameter[] parameters)
+        {
+            if (parameters == null) throw new ArgumentNullException("parameters");
+            foreach (var parameter in parameters)
+            {
+                Add(parameter);
+            }
+        }
+
+
+        /// <summary>
+        /// Gets commandResult that the parameters is for (if specified in the constructor)
+        /// </summary>
+        public FakeCommand Command { get; set; }
 
         #region IDataParameterCollection Members
 
@@ -82,15 +96,29 @@ namespace Griffin.AdoNetFakes
         /// <summary>
         /// Gets or sets the <see cref="System.Object"/> with the specified parameter name.
         /// </summary>
-        public object this[string parameterName]
+        public FakeParameter this[string parameterName]
         {
             get
             {
                 var index = IndexOf(parameterName);
+                return index != -1 ? null : this[index];
+            }
+            set
+            {
+                var index = IndexOf(parameterName);
                 if (index != -1)
-                    return null;
+                    throw new ArgumentOutOfRangeException("parameterName", parameterName);
 
-                return this[index].Value;
+                this[index] = value;
+            }
+        }
+
+        object IDataParameterCollection.this[string parameterName]
+        {
+            get
+            {
+                var index = IndexOf(parameterName);
+                return index != -1 ? null : this[index];
             }
             set
             {

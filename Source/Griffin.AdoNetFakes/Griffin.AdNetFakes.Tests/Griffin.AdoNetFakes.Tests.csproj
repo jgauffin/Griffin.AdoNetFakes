@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3BEEB0EB-492E-444E-B1A5-DEC5B17FED35}</ProjectGuid>
+    <ProjectGuid>{65725897-93A3-4B5B-B478-4BCA07AB2541}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Griffin.AdoNetFakes</RootNamespace>
-    <AssemblyName>Griffin.AdoNetFakes</AssemblyName>
+    <RootNamespace>Griffin.AdoNetFakes.Tests</RootNamespace>
+    <AssemblyName>Griffin.AdoNetFakes.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,40 +29,33 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Griffin.AdoNetFakes.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandResult.cs" />
-    <Compile Include="CommandValidationException.cs" />
-    <Compile Include="FakeColumn.cs" />
-    <Compile Include="FakeDataRecord.cs" />
-    <Compile Include="FakeTable.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="NamespaceDoc.cs" />
-    <Compile Include="Factory.cs" />
-    <Compile Include="FakeCommand.cs" />
-    <Compile Include="FakeDataReader.cs" />
-    <Compile Include="FakeConnection.cs" />
-    <Compile Include="FakeParameter.cs" />
-    <Compile Include="NonQueryCommandResult.cs" />
-    <Compile Include="ParameterCollection.cs" />
-    <Compile Include="FakeTransaction.cs" />
+    <Compile Include="CommandTests.cs" />
+    <Compile Include="ConnectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReaderCommandResult.cs" />
-    <Compile Include="ScalarCommandResult.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Griffin.AdoNetFakes\Griffin.AdoNetFakes.csproj">
+      <Project>{3BEEB0EB-492E-444E-B1A5-DEC5B17FED35}</Project>
+      <Name>Griffin.AdoNetFakes</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

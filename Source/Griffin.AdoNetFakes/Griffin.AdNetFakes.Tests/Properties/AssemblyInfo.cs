@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Griffin.AdoNetFakes")]
-[assembly: AssemblyDescription("ADO.NET Fakes")]
+[assembly: AssemblyTitle("Griffin.AdNetFakes.Tests")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Gauffin Interactive AB")]
-[assembly: AssemblyProduct("Griffin.AdoNetFakes")]
-[assembly: AssemblyCopyright("Copyright © Gauffin Interactive AB 2012")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Griffin.AdNetFakes.Tests")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b6826e1e-6c92-4402-acac-79f8db7651ca")]
+[assembly: Guid("928c658f-1bf2-454b-a675-68d6b21fb2ef")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
