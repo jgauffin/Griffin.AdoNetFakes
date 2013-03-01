@@ -34,7 +34,7 @@ namespace Griffin.AdoNetFakes
         private readonly ParameterCollection _parameters;
         private int _commandIndex;
         private FakeConnection _connection;
-
+        private int _parameterIndex;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="FakeCommand" /> class.
@@ -75,17 +75,17 @@ namespace Griffin.AdoNetFakes
             : this(new FakeConnection())
         {
             if (readerResult == null) throw new ArgumentNullException("readerResult");
-            _inCommands.Add(new ReaderCommandResult {Result = new FakeDataReader(readerResult)});
+            _inCommands.Add(new ReaderCommandResult { Result = new FakeDataReader(readerResult) });
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeCommand" /> class.
+        ///     Initializes a new instance of the <see cref="FakeCommand" /> class.
         /// </summary>
         /// <param name="result">The result.</param>
         /// <remarks>
-        /// Creates a new FakeConnection
+        ///     Creates a new FakeConnection
         /// </remarks>
-        /// <seealso cref="Setup"/>
+        /// <seealso cref="Setup" />
         public FakeCommand(CommandResult result)
             : this(new FakeConnection())
         {
@@ -93,13 +93,13 @@ namespace Griffin.AdoNetFakes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeCommand" /> class.
+        ///     Initializes a new instance of the <see cref="FakeCommand" /> class.
         /// </summary>
         /// <param name="results">Results for every command execution that this command will get.</param>
         /// <remarks>
-        /// Creates a new FakeConnection
+        ///     Creates a new FakeConnection
         /// </remarks>
-        /// <seealso cref="Setup"/>
+        /// <seealso cref="Setup" />
         public FakeCommand(IEnumerable<CommandResult> results)
             : this(new FakeConnection())
         {
@@ -150,8 +150,22 @@ namespace Griffin.AdoNetFakes
         /// </summary>
         public virtual FakeTransaction Transaction
         {
-            get { return (FakeTransaction) ((IDbCommand) this).Transaction; }
+            get { return (FakeTransaction)((IDbCommand)this).Transaction; }
         }
+
+        /// <summary>
+        ///     A callback being invoked just in the beginning of the Execute methods.
+        /// </summary>
+        /// <remarks>Use it to prepare the command further (such as modifying the parameters)</remarks>
+        public Action<FakeCommand> BeforExecuting { get; set; }
+
+        /// <summary>
+        ///     Gets or sets factory used to create new parameters for <see cref="CreateParameter" />.
+        /// </summary>
+        /// <remarks>
+        ///     The <c>int</c> is an zero based index which is increased every time <see cref="CreateParameter" /> has been called. You can use it to figure out which is created.
+        /// </remarks>
+        public Func<int, FakeParameter> ParameterFactory { get; set; }
 
         /// <summary>
         ///     Gets or sets the text commandResult to run against the data source.
@@ -184,7 +198,7 @@ namespace Griffin.AdoNetFakes
         public virtual IDbConnection Connection
         {
             get { return _connection; }
-            set { _connection = (FakeConnection) value; }
+            set { _connection = (FakeConnection)value; }
         }
 
         /// <summary>
@@ -241,7 +255,12 @@ namespace Griffin.AdoNetFakes
         /// </remarks>
         public virtual IDbDataParameter CreateParameter()
         {
-            return Factory.Instance.CreateParameter(this);
+            var p = ParameterFactory != null
+                       ? ParameterFactory(_parameterIndex)
+                       : Factory.Instance.CreateParameter(this);
+
+            _parameterIndex++;
+            return p;
         }
 
         /// <summary>
@@ -262,6 +281,8 @@ namespace Griffin.AdoNetFakes
         /// </remarks>
         public virtual int ExecuteNonQuery()
         {
+            if (BeforExecuting != null)
+                BeforExecuting(this);
             _outCommands.Add(new NonQueryCommandResult(CommandText, new ParameterCollection(_parameters)));
 
             var inCommand = ValidateCommand<NonQueryCommandResult>();
@@ -288,6 +309,9 @@ namespace Griffin.AdoNetFakes
         /// </remarks>
         public virtual IDataReader ExecuteReader()
         {
+            if (BeforExecuting != null)
+                BeforExecuting(this);
+
             _outCommands.Add(new ReaderCommandResult(CommandText, new ParameterCollection(_parameters)));
             var inCommand = ValidateCommand<ReaderCommandResult>();
             return inCommand == null ? Factory.Instance.CreateReader(this) : inCommand.Result;
@@ -319,6 +343,9 @@ namespace Griffin.AdoNetFakes
         /// </remarks>
         public virtual IDataReader ExecuteReader(CommandBehavior behavior)
         {
+            if (BeforExecuting != null)
+                BeforExecuting(this);
+
             _outCommands.Add(new ReaderCommandResult(CommandText, new ParameterCollection(_parameters)));
 
             var inCommand = ValidateCommand<ReaderCommandResult>();
@@ -342,6 +369,9 @@ namespace Griffin.AdoNetFakes
         /// </remarks>
         public virtual object ExecuteScalar()
         {
+            if (BeforExecuting != null)
+                BeforExecuting(this);
+
             _outCommands.Add(new ScalarCommandResult(CommandText, new ParameterCollection(_parameters)));
 
             var inCommand = ValidateCommand<ScalarCommandResult>();
@@ -402,13 +432,15 @@ namespace Griffin.AdoNetFakes
                 {
                     if (i >= expected.Parameters.Count)
                     {
-                        msg += string.Format("Parameter '{0}': Did not expect this parameter, got value: '{1}'\r\n", Parameters[i].ParameterName,
+                        msg += string.Format("Parameter '{0}': Did not expect this parameter, got value: '{1}'\r\n",
+                                             Parameters[i].ParameterName,
                                              Parameters[i].Value);
                         failed = true;
                     }
                     else if (i >= Parameters.Count)
                     {
-                        msg += string.Format("Parameter '{0}': Expected value '{1}', parameter was not specified\r\n", expected.Parameters[i].ParameterName,
+                        msg += string.Format("Parameter '{0}': Expected value '{1}', parameter was not specified\r\n",
+                                             expected.Parameters[i].ParameterName,
                                              expected.Parameters[i].Value);
                         failed = true;
                     }
@@ -433,7 +465,7 @@ namespace Griffin.AdoNetFakes
             if (casted == null)
                 throw new InvalidOperationException(
                     string.Format("Expected Setup() command with index {0} to be of type '{1}'.", _commandIndex,
-                                  typeof (T).Name));
+                                  typeof(T).Name));
 
             ++_commandIndex;
             return casted;

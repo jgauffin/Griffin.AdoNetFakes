@@ -46,6 +46,7 @@
     <Compile Include="CommandValidationException.cs" />
     <Compile Include="FakeColumn.cs" />
     <Compile Include="FakeDataRecord.cs" />
+    <Compile Include="FakeDbProviderFactory.cs" />
     <Compile Include="FakeTable.cs">
       <SubType>Component</SubType>
     </Compile>

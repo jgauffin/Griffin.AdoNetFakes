@@ -54,6 +54,8 @@ namespace Griffin.AdoNetFakes
         public virtual void Dispose()
         {
             IsDisposed = true;
+            if (!IsCommitted)
+                IsRolledBack = true;
         }
 
         /// <summary>

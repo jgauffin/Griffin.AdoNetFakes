@@ -371,7 +371,8 @@ namespace Griffin.AdoNetFakes
             get
             {
                 if (_rowNumber == -1) throw new InvalidOperationException("Call Read() first.");
-                return (byte) _table.Rows[_rowNumber][GetOrdinal(name)];
+                var index = GetOrdinal(name);
+                return _table.Rows[_rowNumber][index];
             }
         }
 
@@ -427,13 +428,14 @@ namespace Griffin.AdoNetFakes
         /// </returns>
         public virtual int GetOrdinal(string name)
         {
+            if (name == null) throw new ArgumentNullException("name");
             for (var i = 0; i < _table.Columns.Count; i++)
             {
-                if (_table.Columns[i].ColumnName == name)
+                if (_table.Columns[i].ColumnName.Equals(name))
                     return i;
             }
-
-            throw new IndexOutOfRangeException(name + " was not found.");
+            
+            throw new IndexOutOfRangeException(string.Format("Column '{0}' was not found.", name));
         }
 
         /// <summary>

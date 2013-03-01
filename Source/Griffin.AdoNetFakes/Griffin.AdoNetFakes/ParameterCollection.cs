@@ -101,12 +101,12 @@ namespace Griffin.AdoNetFakes
             get
             {
                 var index = IndexOf(parameterName);
-                return index != -1 ? null : this[index];
+                return index == -1 ? null : this[index];
             }
             set
             {
                 var index = IndexOf(parameterName);
-                if (index != -1)
+                if (index == -1)
                     throw new ArgumentOutOfRangeException("parameterName", parameterName);
 
                 this[index] = value;
@@ -118,12 +118,12 @@ namespace Griffin.AdoNetFakes
             get
             {
                 var index = IndexOf(parameterName);
-                return index != -1 ? null : this[index];
+                return index == -1 ? null : this[index];
             }
             set
             {
                 var index = IndexOf(parameterName);
-                if (index != -1)
+                if (index == -1)
                     throw new ArgumentOutOfRangeException("parameterName", parameterName);
 
                 this[index].Value = value;

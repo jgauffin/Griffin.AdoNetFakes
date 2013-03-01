@@ -11,7 +11,8 @@ namespace Griffin.AdoNetFakes
     public class FakeConnection : IDbConnection
     {
         private readonly Queue<FakeCommand> _commandsToReturn = new Queue<FakeCommand>();
-        private readonly List<FakeCommand> _createdCommands = new List<FakeCommand>();
+        private readonly List<FakeCommand> _commands = new List<FakeCommand>();
+        private readonly List<FakeTransaction> _transactions = new List<FakeTransaction>();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="FakeConnection" /> class.
@@ -54,9 +55,9 @@ namespace Griffin.AdoNetFakes
         /// <summary>
         ///     Gets all commands that was created for this connection
         /// </summary>
-        public List<FakeCommand> CreatedCommands
+        public List<FakeCommand> Commands
         {
-            get { return _createdCommands; }
+            get { return _commands; }
         }
 
         #region IDbConnection Members
@@ -92,10 +93,12 @@ namespace Griffin.AdoNetFakes
         /// <returns>
         ///     An object representing the new transaction.
         /// </returns>
-        /// <seealso cref="Factory.CreateTransaction()" />
+        /// <seealso cref="Factory.CreateTransaction(FakeConnection)" />
         public virtual IDbTransaction BeginTransaction()
         {
-            return Factory.Instance.CreateTransaction(this);
+            var trans = Factory.Instance.CreateTransaction(this);
+            _transactions.Add(trans);
+            return trans;
         }
 
         /// <summary>
@@ -107,10 +110,12 @@ namespace Griffin.AdoNetFakes
         /// <returns>
         ///     An object representing the new transaction.
         /// </returns>
-        /// <seealso cref="Factory.CreateTransaction(IsolationLevel)" />
+        /// <seealso cref="Factory.CreateTransaction(FakeConnection, IsolationLevel)" />
         public virtual IDbTransaction BeginTransaction(IsolationLevel il)
         {
-            return Factory.Instance.CreateTransaction(this, il);
+            var trans = Factory.Instance.CreateTransaction(this, il);
+            _transactions.Add(trans);
+            return trans;
         }
 
         /// <summary>
@@ -137,14 +142,14 @@ namespace Griffin.AdoNetFakes
         }
 
         /// <summary>
-        ///     Creates and returns a Command object associated with the connection. Uses <see cref="CommandFactory" /> if set,
+        ///     Creates and returns a Command object associated with the connection. Uses commands from <see cref="Setup" /> if configured,
         ///     otherwise <see cref="Factory.CreateCommand" />.
         /// </summary>
         /// <returns>
         ///     A Command object associated with the connection.
         /// </returns>
         /// <remarks>
-        ///     Adds command to <see cref="CreatedCommands" />.
+        ///     Adds command to <see cref="Commands" />.
         /// </remarks>
         /// <seealso cref="Factory.CreateCommand" />
         public virtual IDbCommand CreateCommand()
@@ -153,7 +158,7 @@ namespace Griffin.AdoNetFakes
                               ? _commandsToReturn.Dequeue()
                               : Factory.Instance.CreateCommand(this);
 
-            CreatedCommands.Add(command);
+            Commands.Add(command);
             return command;
         }
 
@@ -198,6 +203,14 @@ namespace Griffin.AdoNetFakes
             get { return CurrentState; }
         }
 
+        /// <summary>
+        /// Gets all transactions which have been created for this connection.
+        /// </summary>
+        public FakeTransaction[] Transactions
+        {
+            get { return _transactions.ToArray(); }
+        }
+
         #endregion
 
         /// <summary>
@@ -206,7 +219,6 @@ namespace Griffin.AdoNetFakes
         public virtual void Reset()
         {
             CurrentState = ConnectionState.Closed;
-            CreatedCommands.Clear();
         }
     }
 }
