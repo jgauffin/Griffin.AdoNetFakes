@@ -70,7 +70,7 @@ namespace Griffin.AdoNetFakes.Tests
             sut.CommandText = "UPDATE User SET Status = @status";
             sut.AddParameter("status", 1);
             sut.AddParameter("id", 22);
-            sut.ExecuteScalar();
+            Assert.Throws<CommandValidationException>(() => sut.ExecuteScalar());
         }
 
         [Fact]
