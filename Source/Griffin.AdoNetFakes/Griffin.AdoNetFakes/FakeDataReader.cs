@@ -4,6 +4,13 @@ using System.Data;
 
 namespace Griffin.AdoNetFakes
 {
+    public enum SchemaDataTypeSource
+    {
+        RowData = 0,
+
+        DataTable = 1
+    }
+
     /// <summary>
     ///     Fake reader
     /// </summary>
@@ -21,6 +28,8 @@ namespace Griffin.AdoNetFakes
         private int _rowNumber = -1;
         private DataTable _schemaTable;
 
+        public SchemaDataTypeSource SchemaDataTypeSource { get; set; }
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="FakeDataReader" /> class.
         /// </summary>
@@ -28,6 +37,12 @@ namespace Griffin.AdoNetFakes
         public FakeDataReader(DataTable table)
         {
             _table = table;
+
+            SchemaDataTypeSource = SchemaDataTypeSource.RowData;
+            if (table is FakeTable && table.GetType().IsGenericType && table.GetType().GetGenericTypeDefinition() == typeof(FakeTable<>))
+            {
+                SchemaDataTypeSource = SchemaDataTypeSource.DataTable;
+            }
         }
 
         /// <summary>
@@ -456,6 +471,11 @@ namespace Griffin.AdoNetFakes
         /// <returns></returns>
         public virtual Type GetFieldType(int ordinal)
         {
+            if (SchemaDataTypeSource == SchemaDataTypeSource.DataTable)
+            {
+                return _table.Columns[ordinal].DataType;
+            }
+
             if (_rowNumber == -1) throw new InvalidOperationException("Call Read() first.");
             return _table.Rows[_rowNumber][ordinal].GetType();
         }
