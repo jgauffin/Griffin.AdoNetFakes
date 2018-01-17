@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Griffin.AdoNetFakes", "Griffin.AdoNetFakes\Griffin.AdoNetFakes.csproj", "{3BEEB0EB-492E-444E-B1A5-DEC5B17FED35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Griffin.AdoNetFakes.Tests", "Griffin.AdNetFakes.Tests\Griffin.AdoNetFakes.Tests.csproj", "{65725897-93A3-4B5B-B478-4BCA07AB2541}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Griffin.AdoNetFakes.Tests", "Griffin.AdoNetFakes.Tests\Griffin.AdoNetFakes.Tests.csproj", "{65725897-93A3-4B5B-B478-4BCA07AB2541}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,5 +22,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B906F048-CB97-423D-8221-C041E3CE870D}
 	EndGlobalSection
 EndGlobal
