@@ -50,6 +50,9 @@
     <Compile Include="FakeTable.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="FakeTableT.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="NamespaceDoc.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="FakeCommand.cs" />

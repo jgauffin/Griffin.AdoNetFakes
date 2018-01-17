@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="CommandTests.cs" />
     <Compile Include="ConnectionTests.cs" />
+    <Compile Include="FakeDataReaderTests.cs" />
+    <Compile Include="FakeTableTTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
