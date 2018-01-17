@@ -21,12 +21,12 @@ namespace Griffin.AdoNetFakes
                 .ForEach(pi => Columns.Add(pi.Name, pi.PropertyType));
         }
 
-        public void AddRowFromInstance(T instance)
+        public void AddRow(T instance)
         {
-            AddRowFromInstance(instance, DefaultBindingFlags);
+            AddRow(instance, DefaultBindingFlags);
         }
 
-        public void AddRowFromInstance(T instance, BindingFlags bindingFlags)
+        public void AddRow(T instance, BindingFlags bindingFlags)
         {
             var properties = typeof(T).GetProperties(bindingFlags);
 

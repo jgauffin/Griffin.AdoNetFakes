@@ -25,7 +25,7 @@ namespace Griffin.AdoNetFakes.Tests
             var row1 = new Person {Id = 1, Name = "Bob", DateOfBirth = new DateTime(1980, 06, 15)};
 
             var sut = new FakeTable<Person>();
-            sut.AddRowFromInstance(row1);
+            sut.AddRow(row1);
 
             Assert.Equal(1, sut.Rows.Count);
             Assert.Equal(row1.Id, sut.Rows[0]["Id"]);

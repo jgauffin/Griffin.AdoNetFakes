@@ -30,7 +30,7 @@ namespace Griffin.AdoNetFakes.Tests
         public void Construct_With_FakeTable_sets_SchemaType_to_DataTable()
         {
             var table = new FakeTable<Person>();
-            table.AddRowFromInstance(new Person { Id = 1, Name = "Bob", DateOfBirth = new DateTime(1980, 06, 15)});
+            table.AddRow(new Person { Id = 1, Name = "Bob", DateOfBirth = new DateTime(1980, 06, 15)});
 
             var sut = new FakeDataReader(table);
 
