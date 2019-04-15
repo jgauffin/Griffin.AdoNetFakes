@@ -16,9 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Griffin.AdoNetFakes.csproj.bak" />
     <None Remove="Griffin.AdoNetFakes.ncrunchproject" />
-    <None Remove="Griffin.AdoNetFakes.nuspec" />
   </ItemGroup>
 
 </Project>

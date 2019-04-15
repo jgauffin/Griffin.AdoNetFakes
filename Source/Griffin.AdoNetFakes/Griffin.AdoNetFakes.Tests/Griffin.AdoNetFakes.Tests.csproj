@@ -2,11 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Griffin.AdoNetFakes.Tests.csproj.bak" />
     <None Remove="Griffin.AdoNetFakes.Tests.ncrunchproject" />
   </ItemGroup>
 
