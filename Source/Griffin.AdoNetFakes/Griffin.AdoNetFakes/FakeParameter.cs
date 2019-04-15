@@ -13,7 +13,7 @@ namespace Griffin.AdoNetFakes
         /// </summary>
         public FakeParameter()
         {
-            
+
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Griffin.AdoNetFakes
         /// Gets or sets the <see cref="T:System.Data.DbType"/> of the parameter.
         /// </summary>
         /// <returns>One of the <see cref="T:System.Data.DbType"/> values. The default is <see cref="F:System.Data.DbType.String"/>.</returns>
-        ///   
+        ///
         /// <exception cref="T:System.ArgumentException">The property is not set to a valid <see cref="T:System.Data.DbType"/>.</exception>
         public override DbType DbType { get; set; }
 
@@ -38,7 +38,7 @@ namespace Griffin.AdoNetFakes
         /// Gets or sets a value that indicates whether the parameter is input-only, output-only, bidirectional, or a stored procedure return value parameter.
         /// </summary>
         /// <returns>One of the <see cref="T:System.Data.ParameterDirection"/> values. The default is Input.</returns>
-        ///   
+        ///
         /// <exception cref="T:System.ArgumentException">The property is not set to one of the valid <see cref="T:System.Data.ParameterDirection"/> values.</exception>
         public override ParameterDirection Direction { get; set; }
 
@@ -70,7 +70,7 @@ namespace Griffin.AdoNetFakes
         /// Gets or sets the <see cref="T:System.Data.DataRowVersion"/> to use when you load <see cref="P:System.Data.Common.DbParameter.Value"/>.
         /// </summary>
         /// <returns>One of the <see cref="T:System.Data.DataRowVersion"/> values. The default is Current.</returns>
-        ///   
+        ///
         /// <exception cref="T:System.ArgumentException">The property is not set to one of the <see cref="T:System.Data.DataRowVersion"/> values.</exception>
         public override DataRowVersion SourceVersion { get; set; }
 
@@ -84,13 +84,13 @@ namespace Griffin.AdoNetFakes
         /// Indicates the precision of numeric parameters.
         /// </summary>
         /// <returns>The maximum number of digits used to represent the Value property of a data provider Parameter object. The default value is 0, which indicates that a data provider sets the precision for Value.</returns>
-        public byte Precision { get; set; }
+        public override byte Precision { get; set; }
 
         /// <summary>
         /// Indicates the scale of numeric parameters.
         /// </summary>
         /// <returns>The number of decimal places to which <see cref="T:System.Data.OleDb.OleDbParameter.Value"/> is resolved. The default is 0.</returns>
-        public byte Scale { get; set; }
+        public override byte Scale { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum size, in bytes, of the data within the column.
