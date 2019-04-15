@@ -14,7 +14,12 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Fork of Griffin.AdoNetFakes</description>
     <releaseNotes>Bug fixes and extensions to move this project forward from its stalled position</releaseNotes>
-    <copyright>Copyright 2018 DNX Solutions Ltd</copyright>
+    <copyright>Copyright 2019 DNX Solutions Ltd</copyright>
     <tags>Griffin AdoNetFakes Ado Fake Fakes</tags>
   </metadata>
+    <!--
+    <files>
+        <file src="bin\$configuration$\*\$id$.dll" target="lib" />
+    </files>
+    -->
 </package>

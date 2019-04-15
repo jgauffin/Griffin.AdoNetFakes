@@ -59,8 +59,8 @@ namespace Griffin.AdoNetFakes.Tests.SimpleData
         {
             var instance = new SimpleObject()
             {
-                Id = Convert.ToInt32(reader[nameof(SimpleObject.Id)]),
-                Name = Convert.ToString(reader[nameof(SimpleObject.Name)]),
+                Id          = Convert.ToInt32(reader[nameof(SimpleObject.Id)]),
+                Name        = Convert.ToString(reader[nameof(SimpleObject.Name)]),
                 DateOfBirth = Convert.ToDateTime(reader[nameof(SimpleObject.DateOfBirth)])
             };
 

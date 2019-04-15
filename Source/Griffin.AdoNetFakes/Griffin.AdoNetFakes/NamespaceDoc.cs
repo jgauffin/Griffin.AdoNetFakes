@@ -15,7 +15,7 @@ namespace Griffin.AdoNetFakes
     /// <example>
     /// How to validate an executed command:
     /// <code>
-    /// 
+    ///
     /// </code>
     /// </example>
     [CompilerGenerated]
