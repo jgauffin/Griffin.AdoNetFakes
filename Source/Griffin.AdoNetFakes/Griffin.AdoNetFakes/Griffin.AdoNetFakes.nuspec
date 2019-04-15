@@ -6,9 +6,9 @@
     <title>DNX.$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-	<!--
+    <!--
     <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-	-->
+    -->
     <projectUrl>https://github.com/martinsmith1968/Griffin.AdoNetFakes</projectUrl>
     <iconUrl>http://www.dnx-solutions.co.uk/favicon-32x32.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
