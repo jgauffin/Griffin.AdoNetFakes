@@ -1,0 +1,9 @@
+{
+  "commands": {
+    "Nuget.Pack": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Griffin.AdoNetFakes\\Nuget.Pack.cmd"
+    }
+  }
+}

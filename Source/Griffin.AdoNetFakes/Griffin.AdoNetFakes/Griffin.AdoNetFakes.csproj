@@ -16,8 +16,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Griffin.AdoNetFakes.ncrunchproject" />
-    <None Remove="Griffin.AdoNetFakes.nuspec" />
+    <None Remove="*.nupkg" />
+    <None Remove="*.nuspec" />
+    <None Remove="*.cmd" />
   </ItemGroup>
 
 </Project>
