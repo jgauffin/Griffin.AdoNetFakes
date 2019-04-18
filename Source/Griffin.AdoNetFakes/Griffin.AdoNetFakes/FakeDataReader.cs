@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace Griffin.AdoNetFakes
 {
@@ -24,7 +26,9 @@ namespace Griffin.AdoNetFakes
     /// </remarks>
     public class FakeDataReader : IDataReader
     {
-        private readonly DataTable _table;
+        private readonly IList<DataTable> _tables = new List<DataTable>();
+        private int tableIndex = -1;
+        private DataTable _table;
         private int _rowNumber = -1;
         private DataTable _schemaTable;
 
@@ -35,14 +39,41 @@ namespace Griffin.AdoNetFakes
         /// </summary>
         /// <param name="table">The table uses as result.</param>
         public FakeDataReader(DataTable table)
+            : this(new[] { table })
         {
-            _table = table;
+        }
 
-            SchemaDataTypeSource = SchemaDataTypeSource.RowData;
-            if (table is FakeTable && table.GetType().IsGenericType && table.GetType().GetGenericTypeDefinition() == typeof(FakeTable<>))
+        public FakeDataReader(IList<DataTable> tables)
+        {
+            tables.ToList().ForEach(t => _tables.Add(t));
+
+            NextResult();
+        }
+
+        private void ResetTableInfo()
+        {
+            _table = null;
+            _rowNumber = -1;
+            _schemaTable = null;
+            SchemaDataTypeSource = default;
+        }
+
+        private bool SetTable(int index)
+        {
+            ResetTableInfo();
+
+            if (index < 0 || index >= _tables.Count)
+                return false;
+
+            _table = _tables[index];
+
+            SchemaDataTypeSource = SchemaDataTypeSource.DataTable;
+            if (_table is FakeTable && !_table.GetType().IsGenericType)
             {
-                SchemaDataTypeSource = SchemaDataTypeSource.DataTable;
+                SchemaDataTypeSource = SchemaDataTypeSource.RowData;
             }
+
+            return true;
         }
 
         /// <summary>
@@ -118,7 +149,8 @@ namespace Griffin.AdoNetFakes
         /// </returns>
         public bool NextResult()
         {
-            return _table.Rows.Count > _rowNumber;
+            ++tableIndex;
+            return SetTable(tableIndex);
         }
 
         /// <summary>
@@ -449,7 +481,7 @@ namespace Griffin.AdoNetFakes
                 if (_table.Columns[i].ColumnName.Equals(name))
                     return i;
             }
-            
+
             throw new IndexOutOfRangeException(string.Format("Column '{0}' was not found.", name));
         }
 
