@@ -4,6 +4,11 @@
       "fileName": "cmd.exe",
       "workingDirectory": ".",
       "arguments": "/c Griffin.AdoNetFakes\\Nuget.Pack.cmd"
+    },
+    "DotNet.Build": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Griffin.AdoNetFakes\\DotNet.Build.cmd"
     }
   }
 }
