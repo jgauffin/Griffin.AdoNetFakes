@@ -17,13 +17,23 @@ namespace Griffin.AdoNetFakes.Tests
     public class FakeDataReaderTests
     {
         [Fact]
+        public void Construct_With_Rows_And_Columns_leaves_SchemaType_as_default_RowData()
+        {
+            var table = new FakeTable();
+
+            var sut = new FakeDataReader(table);
+
+            Assert.Equal(SchemaDataTypeSource.RowData, sut.SchemaDataTypeSource);
+        }
+
+        [Fact]
         public void Construct_With_DataTable_leaves_SchemaType_as_default_RowData()
         {
             var table = new DataTable();
 
             var sut = new FakeDataReader(table);
 
-            Assert.Equal(SchemaDataTypeSource.RowData, sut.SchemaDataTypeSource);
+            Assert.Equal(SchemaDataTypeSource.DataTable, sut.SchemaDataTypeSource);
         }
 
         [Fact]

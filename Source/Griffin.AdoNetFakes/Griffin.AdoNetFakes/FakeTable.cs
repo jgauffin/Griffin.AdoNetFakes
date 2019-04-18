@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 
 namespace Griffin.AdoNetFakes
 {
@@ -9,6 +10,8 @@ namespace Griffin.AdoNetFakes
     /// <remarks>DataTables are used to represent the data which are fetched from the DB.</remarks>
     public class FakeTable : DataTable
     {
+        public static BindingFlags DefaultBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty;
+
         public FakeTable()
         {
         }
