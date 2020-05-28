@@ -67,11 +67,9 @@ namespace Griffin.AdoNetFakes
 
             _table = _tables[index];
 
-            SchemaDataTypeSource = SchemaDataTypeSource.DataTable;
-            if (_table is FakeTable && !_table.GetType().IsGenericType)
-            {
-                SchemaDataTypeSource = SchemaDataTypeSource.RowData;
-            }
+            SchemaDataTypeSource = _table is FakeTable
+                ? SchemaDataTypeSource.DataTable
+                : SchemaDataTypeSource.RowData;
 
             return true;
         }
