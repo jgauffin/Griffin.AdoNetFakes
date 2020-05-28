@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Griffin.AdoNetFakes.Dapper.Tests
 {
-    public class QueryTests
+    public class QueryTypedObjectTests
     {
         private FakeConnection Connection { get; }
 
@@ -33,7 +33,7 @@ namespace Griffin.AdoNetFakes.Dapper.Tests
             Address3
         };
 
-        public QueryTests()
+        public QueryTypedObjectTests()
         {
             Connection = new FakeConnection();
             Connection.Open();
