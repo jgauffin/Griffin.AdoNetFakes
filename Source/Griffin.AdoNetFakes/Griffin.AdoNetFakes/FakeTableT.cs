@@ -6,7 +6,9 @@ namespace Griffin.AdoNetFakes
 {
     public class FakeTable<T> : FakeTable
     {
-        private BindingFlags _bindingFlags;
+        private const BindingFlags DefaultBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty;
+
+        private readonly BindingFlags _bindingFlags;
 
         public FakeTable()
             : this(DefaultBindingFlags)
