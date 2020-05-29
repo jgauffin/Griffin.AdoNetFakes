@@ -6,13 +6,6 @@ using System.Linq;
 
 namespace Griffin.AdoNetFakes
 {
-    public enum SchemaDataTypeSource
-    {
-        RowData = 0,
-
-        DataTable = 1
-    }
-
     /// <summary>
     ///     Fake reader
     /// </summary>
@@ -27,12 +20,10 @@ namespace Griffin.AdoNetFakes
     public class FakeDataReader : IDataReader
     {
         private readonly IList<DataTable> _tables = new List<DataTable>();
-        private int tableIndex = -1;
+        private int _tableIndex = -1;
         private DataTable _table;
         private int _rowNumber = -1;
         private DataTable _schemaTable;
-
-        public SchemaDataTypeSource SchemaDataTypeSource { get; set; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="FakeDataReader" /> class.
@@ -55,7 +46,6 @@ namespace Griffin.AdoNetFakes
             _table = null;
             _rowNumber = -1;
             _schemaTable = null;
-            SchemaDataTypeSource = default;
         }
 
         private bool SetTable(int index)
@@ -66,10 +56,6 @@ namespace Griffin.AdoNetFakes
                 return false;
 
             _table = _tables[index];
-
-            SchemaDataTypeSource = _table is FakeTable
-                ? SchemaDataTypeSource.DataTable
-                : SchemaDataTypeSource.RowData;
 
             return true;
         }
@@ -91,8 +77,8 @@ namespace Griffin.AdoNetFakes
         /// <remarks>Not specified per default</remarks>
         protected DataTable SchemaTable
         {
-            get { return _schemaTable ?? Factory.Instance.CreateSchemaTable(this); }
-            set { _schemaTable = value; }
+            get => _schemaTable ?? Factory.Instance.CreateSchemaTable(this);
+            set => _schemaTable = value;
         }
 
         /// <summary>
@@ -102,10 +88,7 @@ namespace Griffin.AdoNetFakes
         ///     <c>true</c> if this instance has rows; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>returns the datatable count</remarks>
-        public virtual bool HasRows
-        {
-            get { return _table.Rows.Count > 0; }
-        }
+        public virtual bool HasRows => _table.Rows.Count > 0;
 
         /// <summary>
         ///     Gets if disposed has been called.
@@ -147,8 +130,8 @@ namespace Griffin.AdoNetFakes
         /// </returns>
         public bool NextResult()
         {
-            ++tableIndex;
-            return SetTable(tableIndex);
+            ++_tableIndex;
+            return SetTable(_tableIndex);
         }
 
         /// <summary>
@@ -501,13 +484,7 @@ namespace Griffin.AdoNetFakes
         /// <returns></returns>
         public virtual Type GetFieldType(int ordinal)
         {
-            if (SchemaDataTypeSource == SchemaDataTypeSource.DataTable)
-            {
-                return _table.Columns[ordinal].DataType;
-            }
-
-            if (_rowNumber == -1) throw new InvalidOperationException("Call Read() first.");
-            return _table.Rows[_rowNumber][ordinal].GetType();
+            return _table.Columns[ordinal].DataType;
         }
 
         /// <summary>
