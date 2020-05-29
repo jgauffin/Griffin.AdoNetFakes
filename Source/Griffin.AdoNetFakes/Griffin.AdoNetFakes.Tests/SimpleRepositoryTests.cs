@@ -23,7 +23,7 @@ namespace Griffin.AdoNetFakes.Tests
             // Arrange
             var columns = new[] { nameof(SimpleObject.Id), nameof(SimpleObject.Name), nameof(SimpleObject.DateOfBirth) };
             var rows = Enumerable.Empty<object[]>();
-            var table = new FakeTable(columns, rows);
+            var table = new FakeTable(rows, columns);
 
             var cmdToReturn = new FakeCommand(table);
             _connectionFactory.Connection.Setup(cmdToReturn);
@@ -45,7 +45,7 @@ namespace Griffin.AdoNetFakes.Tests
                 //new SimpleObject { Id = 1, Name = "Bob Robertson", DateOfBirth = DateTime.Parse("1950-07-26") }
                 new object[] { 1, "Bob Robertson", DateTime.Parse("1950-07-26") }
             };
-            var table = new FakeTable(columns, rows);
+            var table = new FakeTable(rows, columns);
 
             var cmdToReturn = new FakeCommand(table);
             _connectionFactory.Connection.Setup(cmdToReturn);

@@ -59,8 +59,8 @@ namespace Griffin.AdoNetFakes.Dapper.Tests
         public void QueryFirst_returns_results()
         {
             // Arrange
-            var rows = PersonList.Where(x => x.First().Equals(1));
-            var table = new FakeTable(PersonColumns, rows);
+            var rows = PersonList.Where(x => x.First().Equals(1)).ToList();
+            var table = new FakeTable(rows, PersonColumns);
 
             var readerResult = new ReaderCommandResult
             {
@@ -86,7 +86,7 @@ namespace Griffin.AdoNetFakes.Dapper.Tests
         {
             // Arrange
             var rows = PersonList;
-            var table = new FakeTable(PersonColumns, rows);
+            var table = new FakeTable(rows, PersonColumns);
 
             var readerResult = new ReaderCommandResult
             {
@@ -116,8 +116,8 @@ namespace Griffin.AdoNetFakes.Dapper.Tests
         public void QueryMultiple_returns_results()
         {
             // Arrange
-            var personTable = new FakeTable(PersonColumns, PersonList);
-            var addressesTable = new FakeTable(AddressColumns, AddressesList);;
+            var personTable = new FakeTable(PersonList, PersonColumns);
+            var addressesTable = new FakeTable(AddressesList, AddressColumns);;
 
             var queryResult = new ReaderCommandResult()
             {
