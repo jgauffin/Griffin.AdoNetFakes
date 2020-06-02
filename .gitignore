@@ -30,3 +30,6 @@ _ReSharper*/
 
 Source/Griffin.AdoNetFakes/Help/*
 Source/Griffin.AdoNetFakes/Fakes.shfbproj_*
+.vs/
+.orig
+*.nupkg

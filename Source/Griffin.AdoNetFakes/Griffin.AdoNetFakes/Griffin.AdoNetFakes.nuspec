@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DNX.$id$</id>
+    <version>$version$</version>
+    <title>DNX.$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <!--
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    -->
+    <projectUrl>https://github.com/martinsmith1968/Griffin.AdoNetFakes</projectUrl>
+    <iconUrl>http://www.dnx-solutions.co.uk/favicon-32x32.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Fork of Griffin.AdoNetFakes</description>
+    <releaseNotes>Bug fixes and extensions to move this project forward from its stalled position</releaseNotes>
+    <copyright>Copyright 2019 DNX Solutions Ltd</copyright>
+    <tags>Griffin AdoNetFakes Ado Fake Fakes</tags>
+  </metadata>
+    <!--
+    <files>
+        <file src="bin\$configuration$\*\$id$.dll" target="lib" />
+    </files>
+    -->
+</package>
