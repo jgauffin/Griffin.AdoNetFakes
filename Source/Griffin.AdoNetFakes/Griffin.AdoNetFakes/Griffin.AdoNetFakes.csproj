@@ -1,25 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-      <LangVersion>latest</LangVersion>
-    <IsPackable>true</IsPackable>
-    <Version>3.1.2</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net472;netstandard2.0;netstandard2.1</TargetFrameworks>
+		<PackageId>Griffin.AdoNetFakes</PackageId>
+		<Authors>jgauffin</Authors>
+		<Description>Commanda/Query library allowing inter process communication.</Description>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<Copyright>© Copyright 2022 jauffin. All rights reserved.</Copyright>
+		<PackageTags>ado.net,fakes,database,mocking</PackageTags>
+		<RepositoryUrl>https://github.com/jgauffin/griffin.adonetfakes</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseUrl>https://github.com/jgauffin/griffin.adonetfakes/blob/master/LICENSE</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/jgauffin/griffin.adonetfakes</PackageProjectUrl>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin\Debug</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release</OutputPath>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="*.nupkg" />
-    <None Remove="*.nuspec" />
-    <None Remove="*.cmd" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
+		<IsPackable>true</IsPackable>
+		<Version>2.0.8</Version>
+		<PackageReleaseNotes>FakeDataRecord nows returns correctly from [string name] indexer.</PackageReleaseNotes>
+	</PropertyGroup>
 </Project>

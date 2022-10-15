@@ -429,7 +429,7 @@ namespace Griffin.AdoNetFakes
             get
             {
                 var index = GetOrdinal(name);
-                return GetColumn(index);
+                return GetColumn(index).Value;
             }
         }
 
