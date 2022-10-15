@@ -2,69 +2,70 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Griffin.AdoNetFakes.Tests.SimpleData
+namespace Griffin.AdoNetFakes.Tests.SimpleData;
+
+public class SimpleRepository
 {
-    public class SimpleRepository
+    private readonly ISimpleConnectionFactory _connectionFactory;
+
+    public SimpleRepository(ISimpleConnectionFactory connectionFactory)
     {
-        private ISimpleConnectionFactory _connectionFactory;
+        _connectionFactory = connectionFactory;
+    }
 
-        public SimpleRepository(ISimpleConnectionFactory connectionFactory)
+    public SimpleObject Get()
+    {
+        using (var connection = _connectionFactory.GetConnection())
         {
-            _connectionFactory = connectionFactory;
-        }
-
-        public SimpleObject Get()
-        {
-            using (var connection = _connectionFactory.GetConnection())
+            using (var command = connection.CreateCommand())
             {
-                using (var command = connection.CreateCommand())
+                command.CommandText = "SELECT TOP 1 * from [SimpleObjects]";
+
+                using (var reader = command.ExecuteReader())
                 {
-                    command.CommandText = "SELECT TOP 1 * from [SimpleObjects]";
-
-                    using (var reader = command.ExecuteReader())
+                    if (!reader.Read())
                     {
-                        if (!reader.Read())
-                            return null;
-
-                        return Parse(reader);
+                        return null;
                     }
+
+                    return Parse(reader);
                 }
             }
         }
+    }
 
-        public IList<SimpleObject> GetAll()
+    public IList<SimpleObject> GetAll()
+    {
+        using (var connection = _connectionFactory.GetConnection())
         {
-            using (var connection = _connectionFactory.GetConnection())
+            using (var command = connection.CreateCommand())
             {
-                using (var command = connection.CreateCommand())
+                command.CommandText = "SELECT * from [SimpleObjects]";
+
+                using (var reader = command.ExecuteReader())
                 {
-                    command.CommandText = "SELECT * from [SimpleObjects]";
+                    var list = new List<SimpleObject>();
 
-                    using (var reader = command.ExecuteReader())
+                    while (reader.Read())
                     {
-                        var list = new List<SimpleObject>();
-
-                        while (reader.Read())
-                        {
-                            list.Add(Parse(reader));
-                        }
-
-                        return list;
+                        list.Add(Parse(reader));
                     }
+
+                    return list;
                 }
             }
         }
+    }
 
-        private static SimpleObject Parse(IDataRecord reader)
+    private static SimpleObject Parse(IDataRecord reader)
+    {
+        var instance = new SimpleObject
         {
-            var instance = new SimpleObject()
-            {
-                Id          = Convert.ToInt32(reader[nameof(SimpleObject.Id)]),
-                Name        = Convert.ToString(reader[nameof(SimpleObject.Name)]),
-                DateOfBirth = Convert.ToDateTime(reader[nameof(SimpleObject.DateOfBirth)])
-            };
+            Id = Convert.ToInt32(reader[nameof(SimpleObject.Id)]),
+            Name = Convert.ToString(reader[nameof(SimpleObject.Name)]),
+            DateOfBirth = Convert.ToDateTime(reader[nameof(SimpleObject.DateOfBirth)])
+        };
 
-            return instance;
-        }
+        return instance;
     }
 }

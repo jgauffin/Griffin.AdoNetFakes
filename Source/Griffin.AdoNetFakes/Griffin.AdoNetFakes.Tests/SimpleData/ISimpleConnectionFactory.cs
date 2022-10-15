@@ -1,9 +1,8 @@
 ﻿using System.Data;
 
-namespace Griffin.AdoNetFakes.Tests.SimpleData
+namespace Griffin.AdoNetFakes.Tests.SimpleData;
+
+public interface ISimpleConnectionFactory
 {
-    public interface ISimpleConnectionFactory
-    {
-        IDbConnection GetConnection();
-    }
+    IDbConnection GetConnection();
 }

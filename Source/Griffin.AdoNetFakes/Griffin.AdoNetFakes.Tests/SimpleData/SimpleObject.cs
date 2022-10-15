@@ -1,15 +1,14 @@
 ﻿using System;
 
-namespace Griffin.AdoNetFakes.Tests.SimpleData
+namespace Griffin.AdoNetFakes.Tests.SimpleData;
+
+public class SimpleObject
 {
-    public class SimpleObject
-    {
-        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
+    private static readonly DateTime UnixEpoch = new(1970, 1, 1);
 
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public DateTime DateOfBirth { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public DateTime DateOfBirth { get; set; }
 
-        internal int ApproxUnixAge => DateOfBirth.Year - UnixEpoch.Year;
-    }
+    internal int ApproxUnixAge => DateOfBirth.Year - UnixEpoch.Year;
 }
