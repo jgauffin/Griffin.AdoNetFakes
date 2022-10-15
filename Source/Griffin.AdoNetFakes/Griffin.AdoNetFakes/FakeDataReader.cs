@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -576,7 +576,7 @@ public class FakeDataReader : DbDataReader, IDataReader
     /// <summary>
     ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
-    protected virtual void Dispose(bool isDisposing)
+    protected override void Dispose(bool isDisposing)
     {
         IsDisposed = true;
     }
